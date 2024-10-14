@@ -2,15 +2,57 @@
  * Файл:        mod_stream.js
  * Описание:    Мод отвечающий за загрузку ресурсов Медиа с сервера Tunime,
  *              а также устновки previe Image и название плеера
- * Возвращает:  LoadM3U8, LoadM3U8Episode
+ * Возвращает:  LoadM3U8, LoadM3U8Episode, Skips
  */
 
-import { ApiTunime } from "../../modules/TunimeApi.js";
+import { Tunime } from "../../modules/TunimeApi.js";
 import { Player } from "../player.js";
+import { InitMediaSession } from "./mod_mediasession.js";
 import { AUTOQUALITY, QUALITY } from "./mod_settings.js";
 
 let STREAMS = undefined;
 let KODIK_LINK = undefined;
+
+//Моменты пропуска аниме
+export class Skips {
+    static #list = [];
+    static showed = false;
+    static index = -1;
+
+    static set list(value) {
+        this.#list = value;
+    }
+
+    static get list() {
+        return this.#list;
+    }
+
+    static Skip() {
+        //Пропускает текущий выбранный сегмент
+        if (Skips.index > -1) {
+            Player.currentTime = Skips.list[Skips.index].end;
+        }
+    }
+
+    constructor(list = []) {
+        //Пройтись по списку и добавить их
+        Skips.list = this.parseAndAddSkips(list);
+    }
+
+    parseAndAddSkips(list) {
+        let val = [];
+        list.forEach(item => {
+            const match = item.match(/(\d+):(\d+)-(\d+):(\d+)/);
+            if (match) {
+                const startMinutes = parseInt(match[1]) * 60 + parseInt(match[2]);
+                const endMinutes = parseInt(match[3]) * 60 + parseInt(match[4]);
+
+                val.push({ start: startMinutes, end: endMinutes });
+            }
+        });
+        return val;
+    }
+}
 
 export async function LoadM3U8(id, e) {
     const streams = await loadStreamTunime(id, e);
@@ -29,6 +71,9 @@ export async function LoadM3U8Episode(id, e) {
 }
 
 function GenLink(streams) {
+    if(typeof streams === "boolean"){
+        return;
+    }
     STREAMS = { 360: streams['360'], 480: streams['480'], 720: streams['720'] };
     fixStreamUrls(STREAMS);
     if (AUTOQUALITY) {
@@ -46,11 +91,11 @@ function GenLink(streams) {
             return blobUrl;
         } else {
             if (QUALITY == '720') {
-                return ApiTunime.link_file({ q720: STREAMS[720][0].src, q480: STREAMS[480][0].src, q360: STREAMS[360][0].src });
+                return Tunime.Link({ q720: STREAMS[720][0].src, q480: STREAMS[480][0].src, q360: STREAMS[360][0].src });
             } else if (QUALITY == '480') {
-                return ApiTunime.link_file({ q480: STREAMS[480][0].src, q360: STREAMS[360][0].src });
+                return Tunime.Link({ q480: STREAMS[480][0].src, q360: STREAMS[360][0].src });
             } else {
-                return ApiTunime.link_file({ q360: STREAMS[360][0].src });
+                return Tunime.Link({ q360: STREAMS[360][0].src });
             }
         }
     } else {
@@ -62,14 +107,17 @@ function loadStreamTunime(id, e, kodik_link = undefined) {
     return new Promise(async (resolve) => {
         if (!kodik_link)
             kodik_link = await loadKodikLink(id, e);
-        let tunime_data = await ApiTunime.stream(kodik_link);
+        let tunime_data = await Tunime.Source(kodik_link);
         resolve(tunime_data);
+        if ($PARAMETERS.player.skipmoments) {
+            new Skips(tunime_data.skips);
+        }
         loadFirstSuccessfulImage(tunime_data.thumbinals)
             .then((successfulImage) => {
-                if (successfulImage !== null) {
-                    Player.setAttribute('poster', successfulImage);
-                } else {
+                if (typeof successfulImage === "undefined") {
                     Player.setAttribute('poster', "/images/preview-image.png");
+                } else {
+                    Player.setAttribute('poster', successfulImage);
                 }
             });
     });
@@ -90,6 +138,9 @@ function LoadImage(url) {
 }
 
 async function loadFirstSuccessfulImage(urls) {
+    if(typeof urls === "undefined"){
+        return;
+    }
     for (let url of urls) {
         url = url.indexOf("http") != -1 ? url : "https:" + url;
         const result = await LoadImage(url);
@@ -102,7 +153,7 @@ async function loadFirstSuccessfulImage(urls) {
 
 function loadKodikLink(id, e) {
     return new Promise((resolve) => {
-        kodikApi.search({ id: id }, async (res) => {
+        kodikApi.search({ id: id, with_material_data: true }, async (res) => {
             if (res.results.length == 0) {
                 console.log('[plr] - No video');
                 return;
@@ -117,6 +168,7 @@ function loadKodikLink(id, e) {
             if (!kodik_link.includes("http")) {
                 kodik_link = `https:${kodik_link}`;
             }
+            InitMediaSession(res);
             resolve(kodik_link);
 
             //Стилизация плеера

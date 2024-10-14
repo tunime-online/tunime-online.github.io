@@ -1,5 +1,10 @@
-import { $ID } from "../watch.js";
-import { Player } from "./mod_player.js";
+import { $ID, Player } from "../watch.js";
+import { Private } from "./mod_private.js";
+import { Screenshots } from "./mod_resource.js";
+
+function SetImage(id) {
+    Screenshots.Init().Select({ id });
+}
 
 //Управление историей
 const _history = {
@@ -24,27 +29,27 @@ const _history = {
      * @param {Int} i - прибавка эпихода если необходимо (Для переклбчение следующего эпизода)
      * @param {Int} e - текущий эпизод
      */
-    add(cnt = false, duration = 0, i = 0, e = Player().episodes.selected_episode) {
-        if (!this.shikiData) {
+    add(cnt = false, duration = 0, i = 0, e = Player.CEpisodes.selected) {
+        if (!this.shikiData || Private.INCOGNITO) {
             return;
         }
         const history = this.get();
         const { russian, screenshots } = this.shikiData;
         const episode = cnt ? e + i : e + i;
         let image = "";
+        this.screenData = Screenshots.Init().list;
         if (this.screenData?.length > 0) {
             image = `${this.screenData[this.idImage].original}`;
-        }else{
+        } else {
             image = `${screenshots[0].original}`;
         }
-        const dub = Player().translation.name;
+        const dub = Player.CTranslation.name;
         const type = this.shikiData.kind == "movie" ? "Фильм" : this.shikiData.kind == "ova" ? "OVA" : this.shikiData.kind == "ona" ? "ONA" : "Аниме";
-
         const item = {
             id: $ID,
             continue: cnt,
             duration,
-            fullduration: Player().video_data.duration,
+            fullduration: Player.VData.duration,
             episode,
             name: russian,
             image,
@@ -70,10 +75,21 @@ const _history = {
 
     //Индивидуальные функции
     custom: {
+        have: false,
+        inited: false,
         /**
          * Инициализация после загрузки изображений slide
          */
-        init: function () {
+        init: function (df) {
+            if (this.inited) {
+                return;
+            }
+            this.inited = true;
+
+            if(df){
+                _history.idImage = df;
+            }
+
             let history = _history.get();
             //Находим ID елемента из списка
             let id = history.findIndex((x) => { return x.id == $ID });
@@ -88,19 +104,20 @@ const _history = {
             }
 
             //Показываем выбор в визуале
-            SetImage();
+            SetImage(_history.idImage);
 
             //Записуемся на функционал клик по изображение изменение idImage
             $('.galery-slider > .slide').click((e) => {
                 let idImage = $(e.currentTarget).data('id');
-                _history.idImage = idImage ? idImage : 0;
-                SetImage();
+                this.click(idImage);
             });
 
-            function SetImage() {
-                $(`.galery-slider > .slide.select`).removeClass('select');
-                $(`.galery-slider > .slide[data-id="${_history.idImage}"]`).addClass('select');
-            }
+            
+        },
+
+        click: function (id) {
+            _history.idImage = id ? id : 0;
+            SetImage(_history.idImage);
         }
     }
 };

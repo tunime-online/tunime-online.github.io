@@ -46,6 +46,7 @@
                         top: 0;
                         position: absolute;
                         z-index: 2;
+                        pointer-events: none;
                     }
                 }
             }
@@ -53,7 +54,7 @@
             &>.controls {
                 $btn_size: 43px;
 
-                background: #282D39;
+                background: #191C21;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -257,21 +258,6 @@
         .swiper-pagination-bullet-active {
             background: #398BE0;
         }
-    }
-}
-
-/*Animation*/
-@keyframes loading {
-    0% {
-        opacity: .04;
-    }
-
-    50% {
-        opacity: .4;
-    }
-
-    100% {
-        opacity: .04;
     }
 }
 

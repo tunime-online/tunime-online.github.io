@@ -1,5 +1,5 @@
 import { Main } from "../modules/ShikiUSR.js";
-import { Sleep, ScrollElementWithMouse, isObjectEqual } from "../modules/funcitons.js";
+import { Sleep, ScrollElementWithMouse, isObjectEqual } from "../modules/functions.js";
 import { Animes, Genres } from "../modules/ShikiAPI.js";
 import { GetState, SetState } from "./search/mod_searchState.js";
 import { SearchHistory } from "./search/mod_history.js";
@@ -350,7 +350,10 @@ Main((e) => {
     ShowVoice();
     ShowHistory();
     Events();
-    Recomendation();
+    // Recomendation();
+    $('.recomendation-none > span').text('Рекомендации отключены разработчиком');
+    localStorage.removeItem('recomendation-database');
+    localStorage.removeItem('tunime-recomendation');
 });
 
 InitMenu();
@@ -541,7 +544,7 @@ function ShowHistory() {
 
             for (let i = 0; i < response.length; i++) {
                 const element = response[i];
-                $(`main.history > .content > a[data-id="${element.id}"]`).append(ACard.Gen({response: element, link: false}));
+                $(`main.history > .content > a[data-id="${element.id}"]`).append(ACard.Gen({ response: element, link: false }));
             }
         }).GET();
     }

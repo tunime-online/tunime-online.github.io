@@ -13,13 +13,11 @@
     <link rel="apple-touch-icon" sizes="120x120" href="./images/icons/logo-x192-o.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="./images/icons/logo-x192-o.png" />
     <link rel="stylesheet" href="/style/css/main.css">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="/style/css/min/swiper-bundle.min.css">
     <link rel="stylesheet" href="/style/css/index.css">
     <link rel="manifest" href="/images/icons/manifest-o.json">
     <script src="/javascript/library/jqery.min.js"></script>
-    <script src="/javascript/engine/event_handler.js"></script>
 </head>
 
 <body data-orientation="0">
@@ -45,37 +43,61 @@
                 </div>
             </div>
         </div>
-        <div class="desktop search w800">
-            <input type="text" name="" id="search-input" autocomplete="new-password" placeholder="Поиск">
-            <div class="btn unselectable"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <div class="notify-search">
+            <div class="desktop search">
+                <input type="text" name="" id="search-input" autocomplete="new-password" placeholder="Поиск">
+                <div class="shortcut unselectable">
+                    <span>/</span>
+                </div>
+            </div>
+            <div class="notification">
+                <svg class="mail" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                        d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7H272.5L349.4 44.6z" />
-                </svg></div>
-            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        d="M13.3125 7.6438H11.1375C10.525 7.6438 9.98125 7.9813 9.70625 8.5313L9.18125 9.5688C9.05625 9.8188 8.80625 9.97505 8.53125 9.97505H6.48125C6.2875 9.97505 6.0125 9.9313 5.83125 9.5688L5.30625 8.53755C5.03125 7.9938 4.48125 7.65005 3.875 7.65005H1.6875C1.44375 7.65005 1.25 7.8438 1.25 8.08755V10.125C1.25 12.3938 2.6125 13.75 4.8875 13.75H10.125C12.2688 13.75 13.5875 12.575 13.75 10.4875V8.0813C13.75 7.8438 13.5562 7.6438 13.3125 7.6438Z"
+                        fill="white" />
                     <path
-                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
-                </svg></div>
-        </div>
-        <div class="notification">
-            <svg viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M19.9998 2.5V3.89688C25.6638 4.79609 29.9998 9.70312 29.9998 15.625V18.2344C29.9998 21.7812 31.2107 25.2266 33.4216 28L34.5857 29.4531C35.0388 30.0156 35.1248 30.7891 34.8123 31.4375C34.4998 32.0859 33.8435 32.5 33.1248 32.5H1.87477C1.15368 32.5 0.497036 32.0859 0.184848 31.4375C-0.127417 30.7891 -0.0396048 30.0156 0.410708 29.4531L1.57555 28C3.79196 25.2266 4.99977 21.7812 4.99977 18.2344V15.625C4.99977 9.70312 9.33571 4.79609 14.9998 3.89688V2.5C14.9998 1.11953 16.117 0 17.4998 0C18.8826 0 19.9998 1.11953 19.9998 2.5ZM16.8748 7.5C12.3904 7.5 8.74977 11.1406 8.74977 15.625V18.2344C8.74977 21.9766 7.66539 25.625 5.64899 28.75H29.3513C27.3357 25.625 26.2498 21.9766 26.2498 18.2344V15.625C26.2498 11.1406 22.6091 7.5 18.1248 7.5H16.8748ZM22.4998 35C22.4998 36.2578 21.9763 37.6016 21.0388 38.5391C20.1013 39.4766 18.7576 40 17.4998 40C16.1716 40 14.8982 39.4766 13.9607 38.5391C13.0232 37.6016 12.4998 36.2578 12.4998 35H22.4998Z">
-                </path>
-            </svg>
-            <div class="dot hide"></div>
+                        d="M13.75 4.88125V6.78125C13.6125 6.73125 13.4625 6.70625 13.3125 6.70625H11.1375C10.1687 6.70625 9.3 7.24375 8.86875 8.10625L8.4 9.03125H6.6125L6.14375 8.1125C5.7125 7.24375 4.84375 6.70625 3.875 6.70625H1.6875C1.5375 6.70625 1.3875 6.73125 1.25 6.78125V4.88125C1.25 2.60625 2.60625 1.25 4.88125 1.25H10.1188C12.3938 1.25 13.75 2.60625 13.75 4.88125Z"
+                        fill="white" />
+                </svg>
+
+                <svg class="dot" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12.375 5C13.4105 5 14.25 4.16053 14.25 3.125C14.25 2.08947 13.4105 1.25 12.375 1.25C11.3395 1.25 10.5 2.08947 10.5 3.125C10.5 4.16053 11.3395 5 12.375 5Z"
+                        fill="white" />
+                    <path
+                        d="M13.2125 7.94998H11.1438C10.5625 7.94998 10.0437 8.27498 9.78125 8.78748L9.28125 9.77498C9.1625 10.0125 8.925 10.1562 8.6625 10.1562H6.71875C6.5375 10.1562 6.26875 10.1187 6.1 9.76873L5.60625 8.78748C5.34375 8.26873 4.825 7.94373 4.24375 7.94373H2.1625C1.9375 7.94998 1.75 8.13748 1.75 8.36248V10.2937C1.75 12.4625 3.04375 13.75 5.20625 13.75H10.1812C12.2188 13.75 13.475 12.6312 13.625 10.65V8.36248C13.625 8.13748 13.4375 7.94998 13.2125 7.94998Z"
+                        fill="white" />
+                    <path
+                        d="M13.625 6.5V7.08125C13.4937 7.0375 13.3562 7.0125 13.2125 7.0125H11.1438C10.2063 7.0125 9.3625 7.53125 8.95 8.36875L8.5125 9.225H6.86875L6.44375 8.375C6.01875 7.53125 5.18125 7.0125 4.24375 7.0125H2.1625C2.01875 7.0125 1.88125 7.0375 1.75 7.08125V5.325C1.75 3.41875 3.29375 1.875 5.2 1.875H9C9.4 1.875 9.6875 2.2375 9.6125 2.625C9.5125 3.125 9.55625 3.66875 9.8 4.24375C10.0813 4.89375 10.6062 5.41875 11.2562 5.7C11.8312 5.94375 12.375 5.9875 12.875 5.8875C13.2625 5.8125 13.625 6.1 13.625 6.5Z"
+                        fill="white" />
+                </svg>
+
+            </div>
         </div>
     </header>
 
     <div class="mobile search mbs">
         <input type="text" name="" id="search-input" autocomplete="new-password" placeholder="Поиск">
-        <div class="btn unselectable"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path
-                    d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7H272.5L349.4 44.6z" />
-            </svg></div>
-        <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path
-                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
-            </svg></span>
+        <div class="shortcut unselectable">
+            <span>/</span>
+        </div>
+    </div>
+
+    <div class="app-update">
+        <div class="update-content-version">
+            <span class="text-update"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                        d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64c-35.3 0-64 28.7-64 64H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64c0 35.3 28.7 64 64 64v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448c35.3 0 64-28.7 64-64h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V280h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V176h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448c0-35.3-28.7-64-64-64V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H280V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H176V24zM160 128H352c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32zm192 32H160V352H352V160z" />
+                </svg><span>Обновление</span></span>
+            <div class="to-version">
+                <span class="cur version">4fg5d</span>
+                <span class="version">></span>
+                <span class="next">37eeg</span>
+            </div>
+        </div>
+        <div class="update-progress">
+            <div class="progress"></div>
+        </div>
     </div>
 
     <!-- Slider main container -->
@@ -93,8 +115,8 @@
     </div>
 
     <div class="section-title mbs unselectable">
+        <span class="line"></span>
         <div class="text">Новые</div>
-        <div class="btn"></div>
     </div>
 
     <div class="section-genres scroll-none unselectable">
@@ -144,19 +166,32 @@
     </div>
 
     <div class="section-title mbs unselectable">
+        <span class="line"></span>
         <div class="text">Обновленые</div>
-        <div class="btn"></div>
     </div>
 
     <div class="section-update scroll-none unselectable"></div>
 
+    <!-- <div class="section-title mbs unselectable">
+        <span class="line"></span>
+        <div class="text">Ожидаемые</div>
+    </div> -->
+
+    <div class="section-countdown mbs">
+        <!-- Slider main container -->
+        <div class="swiper-countdown">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper unselectable">
+            </div>
+        </div>
+    </div>
+
     <div class="github unselectable">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-            <path
-                d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
-        </svg>
         <div class="title">Tunime</div>
-        <div class="version">v <span>0.0.0</span></div>
+        <div class="version-hash">
+            <div class="version">v <span>0.0.0</span></div>
+            <div class="hash"></div>
+        </div>
         <div class="date">2022.12.28</div>
     </div>
 
@@ -177,31 +212,36 @@
                         </svg>
                     </div>
                 </div>
-                <!-- <label class="notify-search">
-                    <input type="text" name="" id="notify-search-input" autocomplete="new-password" placeholder="Поиск">
-                    <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path
-                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z">
-                            </path>
-                        </svg>
+
+                <div class="notify-content hide">
+                    <div class="notify-filter">
+                        <div class="block-filter selected" id="all">Все</div>
+                        <div class="block-filter" id="unread">Новые</div>
                     </div>
-                </label> -->
 
-                <div class="notify-filter">
-                    <div class="block-filter selected" id="all">Все</div>
-                    <div class="block-filter" id="unread">Непрочитанные</div>
-                </div>
-
-                <div class="content-notifycation">
-                    <div class="notifycation empty-notify">
-                        <div class="empty-notify">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
-                                <path
-                                    d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7l-87.5-68.6c.5-1.7 .7-3.5 .7-5.4c0-27.6-11-54.1-30.5-73.7L512 320c-20.5-20.5-32-48.3-32-77.3V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V51.2c-42.6 8.6-79 34.2-102 69.3L38.8 5.1zM160 242.7c0 29-11.5 56.8-32 77.3l-1.5 1.5C107 341 96 367.5 96 395.2c0 11.5 9.3 20.8 20.8 20.8H406.2L160 222.1v20.7zM384 448H320 256c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
-                            </svg>
-                            <span>Нет уведомлений</span>
+                    <div class="content-notifycation">
+                        <div class="notifycation empty-notify">
+                            <div class="empty-notify">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                                    <path
+                                        d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7l-87.5-68.6c.5-1.7 .7-3.5 .7-5.4c0-27.6-11-54.1-30.5-73.7L512 320c-20.5-20.5-32-48.3-32-77.3V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V51.2c-42.6 8.6-79 34.2-102 69.3L38.8 5.1zM160 242.7c0 29-11.5 56.8-32 77.3l-1.5 1.5C107 341 96 367.5 96 395.2c0 11.5 9.3 20.8 20.8 20.8H406.2L160 222.1v20.7zM384 448H320 256c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
+                                </svg>
+                                <span>Нет уведомлений</span>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="notify-load">
+                    <svg role="progressbar" viewBox="0 0 100 100" aria-valuemin="0" aria-valuemax="100"
+                        aria-valuenow="75" width="50" height="50">
+                        <circle cx="50%" cy="50%" r="42" shape-rendering="geometricPrecision" fill="none"
+                            stroke="#191C21" stroke-width="14"></circle>
+                        <circle cy="50%" shape-rendering="geometricPrecision" class="circle" fill="none"
+                            stroke-width="10" stroke-dashoffset="66" stroke-linecap="round" cx="50%" r="42"
+                            data-angel="87" style="animation: rotating 3s linear infinite; transform-origin: 50% 50%;"
+                            stroke="#2393F1" stroke-dasharray="236"></circle>
+                    </svg>
                 </div>
             </span>
         </span>
@@ -236,6 +276,7 @@
     <script src="/javascript/library/anime.min.js"></script>
     <!--Custom library-->
     <script src="/javascript/server.js"></script>
+    <script src="/javascript/services/dispatcher.js" type="module"></script>
     <script src="/javascript/parametrs.js"></script>
     <script src="/javascript/kodik.js"></script>
     <script src="/javascript/pages/index.js" type="module"></script>

@@ -1,4 +1,7 @@
 $main_bg: #101318;
+$object_bg: #1f2329;
+$primary: #2393F1;
+$radius: 5px;
 
 body {
   background: $main_bg;
@@ -16,6 +19,7 @@ header {
   margin-right: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   &>.account {
     display: flex;
@@ -72,27 +76,41 @@ header {
     }
   }
 
-  &>.notification {
-    min-height: $profile_size;
-    min-width: $profile_size;
-    position: relative;
+  &>.notify-search {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 10px;
 
-    svg {
-      fill: #fff;
-      height: 20px;
-    }
+    .notification {
+      $size: 40px;
+      min-height: $size;
+      min-width: $size;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: $object_bg;
+      border-radius: $radius;
+      cursor: pointer;
 
-    &>.dot {
-      width: 8px;
-      height: 8px;
-      background: red;
-      border-radius: 50%;
-      position: absolute;
-      top: 14px;
-      right: 13px;
+      svg {
+        fill: #fff;
+        height: 17px;
+        z-index: 1;
+      }
+
+      svg.dot {
+        display: none;
+      }
+
+      &.dot {
+        svg.mail {
+          display: none;
+        }
+
+        svg.dot {
+          display: block;
+        }
+      }
     }
   }
 }
@@ -103,43 +121,29 @@ header {
   margin-right: 20px;
 }
 
+.desktop.search {
+  width: 300px;
+}
+
 .search {
   display: flex;
   height: 40px;
   overflow: hidden;
-  border-radius: 7px;
+  border-radius: $radius;
   position: relative;
-
-
-
-  .icon {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 40px;
-    display: grid;
-    place-items: center;
-    transition: .3s ease-in-out;
-
-    svg {
-      width: 16px;
-      fill: #fff;
-      opacity: 0.7;
-    }
-  }
 
   &>input {
     width: 100%;
     border-radius: 0;
     border: none;
-    background: #282D39;
+    background: $object_bg;
     color: #fff;
     padding-left: 10px;
+    padding-right: 40px;
     font-family: Manrope;
 
     &::placeholder {
-      padding-left: 30px;
+      // padding-left: 10px;
       color: #fff;
       opacity: 0.7;
       transition: .3s ease-in-out;
@@ -147,30 +151,35 @@ header {
 
     @supports (-moz-appearance:none) {
       &:placeholder-shown {
-        padding-left: 40px;
+        padding-left: 10px;
         transition: .3s ease-in-out;
       }
 
-      &:focus{
-        &:placeholder-shown{
+      &:focus {
+        &:placeholder-shown {
           padding-left: 10px;
         }
       }
     }
   }
 
-  &>.btn {
-    min-width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #51B2FF 0%, #2672DA 95.83%);
-    box-shadow: -4px 0px 20px rgba(0, 0, 0, 0.25);
+  &>.shortcut {
+    position: absolute;
+    right: 6px;
+    top: 0;
+    bottom: 0;
     display: grid;
     place-items: center;
-    cursor: pointer;
 
-    svg {
-      fill: #fff;
-      height: 18px;
+    &>span {
+      color: #fff;
+      background: $main_bg;
+      width: 28px;
+      height: 28px;
+      border-radius: $radius;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
     }
   }
 
@@ -190,6 +199,7 @@ header {
 }
 
 @import './index/trailers';
+@import './index/update';
 
 .swiper-continue {
   font-family: Manrope;
@@ -205,7 +215,7 @@ header {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: #282D39;
+        background: $object_bg;
         height: 100%;
         border-radius: 5px;
         overflow: hidden;
@@ -385,6 +395,16 @@ header {
 .section-title {
   color: #fff;
   font-family: Manrope;
+  display: flex;
+  gap: 10px;
+
+  &>.line {
+    display: grid;
+    width: 5px;
+    border-radius: 1px;
+    height: 25px;
+    background: $primary;
+  }
 }
 
 .section-genres {
@@ -399,7 +419,7 @@ header {
 
   &>.genres {
     margin-right: 10px;
-    background: #282B2F;
+    background: $object_bg;
     height: 35px;
     display: grid;
     place-items: center;
@@ -414,20 +434,27 @@ header {
 
   &>.selected {
     color: #fff;
-    background: linear-gradient(135deg, #51B2FF 0%, #1F62BE 95.83%);
+    background: $primary;
   }
 }
 
 .section-anime,
 .section-update {
+  padding-left: 20px;
   margin-top: 20px;
   margin-right: 20px;
   display: flex;
   overflow: hidden;
   overflow-x: scroll;
 
-  a:nth-child(1) {
-    margin-left: 20px;
+  @for $i from 1 through 8 {
+    a:empty+a:nth-child(#{$i}) {
+
+      &::before,
+      &::after {
+        animation-delay: #{$i * 0.3}s;
+      }
+    }
   }
 }
 
@@ -438,19 +465,41 @@ header {
   font-family: Manrope;
   margin-top: 50px;
   color: #404246;
-
-  svg {
-    height: 50px;
-    fill: #404246;
-  }
+  gap: 3px;
 
   .title {
     margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .version-hash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .version {
+      font-size: 14px;
+    }
+
+    .hash {
+      text-transform: uppercase;
+      font-size: 11px;
+      margin-top: -4px;
+    }
+  }
+
+  .date {
+    font-size: 14px;
   }
 }
 
 footer {
-  margin-top: 110px;
+  display: flex;
+  height: calc(120px + env(safe-area-inset-bottom));
+  width: 100%;
+  // margin-top: 110px;
 }
 
 .loading {
@@ -468,12 +517,6 @@ footer {
     fill: #fff;
     animation: rotate 3s ease-in-out infinite;
   }
-}
-
-.w800 {
-  width: 800px;
-  margin-left: 20px;
-  margin-right: 20px;
 }
 
 .hide {
@@ -494,6 +537,7 @@ footer {
 @import './windowed';
 @import './window/update';
 @import './window/notify';
+@import './window/countdown';
 
 .card-anime {
   min-width: 195px;
@@ -531,9 +575,14 @@ body {
     .section-genres,
     .section-anime,
     .swiper-continue,
-    .section-update {
+    .section-update,
+    .section-countdown {
 
       margin-right: max(20px, env(safe-area-inset-right));
+    }
+
+    footer {
+      height: 50px;
     }
   }
 
@@ -544,7 +593,8 @@ body {
     .section-anime,
     .swiper-continue,
     .section-title,
-    .section-update {
+    .section-update,
+    .section-countdown {
       margin-left: max(20px, env(safe-area-inset-left));
     }
 
@@ -555,6 +605,10 @@ body {
     .section-anime a:nth-child(1),
     .section-update a:nth-child(1) {
       margin-left: 0px;
+    }
+
+    footer {
+      height: 50px;
     }
   }
 }

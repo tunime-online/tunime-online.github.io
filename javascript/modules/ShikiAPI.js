@@ -1,9 +1,10 @@
-import { ObjectToQuery, Fetch } from "./funcitons.js";
+import { ObjectToQuery, Fetch } from "./functions.js";
 import { Headers } from "./header.js";
+import { SHIKIURL } from "./Settings.js";
 import { User } from "./ShikiUSR.js"
 
 export const Achievements = {
-    base_url: () => { return "https://shikimori.me/api/achievements" },
+    base_url: () => { return `${SHIKIURL.url}/api/achievements` },
     achievements: function (query = {}, event = () => { }) {
         query = ObjectToQuery(query);
         const url = this.base_url() + query;
@@ -22,7 +23,7 @@ export const Achievements = {
 }
 
 export const Animes = {
-    base_url: () => { return "https://shikimori.me/api/animes" },
+    base_url: () => { return `${SHIKIURL.url}/api/animes` },
     list: function (query = {}, event = () => { }) {
         query = ObjectToQuery(query);
         const url = this.base_url() + query;
@@ -81,7 +82,7 @@ export const Animes = {
 };
 
 export const Appear = {
-    base_url: () => { return "https://shikimori.me/api/appears" },
+    base_url: () => { return `${SHIKIURL.url}/api/appears` },
     appears: function (id, event = () => { }) {
         const url = this.base_url() + "/" + id;
         const request = Fetch("POST", url, Headers.bearer());
@@ -97,8 +98,55 @@ export const Appear = {
     }
 };
 
+export const Friends = {
+    base_url: () => { return `${SHIKIURL.url}/api/friends` },
+    friends: function (id, event = () => { }) {
+        const url = this.base_url() + "/" + id;
+        const request = Fetch("POST", url, Headers.bearer());
+        return {
+            POST: async () => {
+                const response = await request.fetch();
+                event(response);
+                return response;
+            },
+            DELETE: async () => {
+                request.setMethod('DELETE');
+                const response = await request.fetch();
+                event(response);
+                return response;
+            }
+        }
+    }
+}
+
+export const Favorites = {
+    base_url: () => { return `${SHIKIURL.url}/api/favorites` },
+    /**
+     * @param {"Anime" | "Manga" | "Ranobe" | "Character"} type - Тип избранного
+     * @param {number} id - ID избранного
+     * @param {*} event - Функция обработки ответа
+     */
+    favorites: function (type, id, event = () => { }) {
+        let url = this.base_url() + "/" + type + "/" + id;
+        const request = Fetch("POST", url, Headers.bearer());
+        return {
+            POST: async () => {
+                const response = await request.fetch();
+                event(response);
+                return response;
+            },
+            DELETE: async () => {
+                request.setMethod("DELETE");
+                const response = await request.fetch();
+                event(response);
+                return response;
+            }
+        }
+    }
+}
+
 export const Users = {
-    base_url: () => { return "https://shikimori.me/api/users" },
+    base_url: () => { return `${SHIKIURL.url}/api/users` },
     list: function (query = {}, event = () => { }) {
         query = ObjectToQuery(query);
         const url = this.base_url() + query;
@@ -108,7 +156,17 @@ export const Users = {
     show: function (id, query = {}, event = () => { }) {
         query = ObjectToQuery(query);
         let url = this.base_url() + "/" + id + query;
-        return StandartIDGET(url, event);
+        const request = Fetch("GET", url, Headers.base());
+        return {
+            GET: async (logged = false) => {
+                if (logged) {
+                    request.setHeaders(Headers.bearer());
+                }
+                const response = await request.fetch();
+                event(response);
+                return response;
+            }
+        }
     },
 
     info: function (id, event = () => { }) {
@@ -129,8 +187,9 @@ export const Users = {
         }
     },
 
-    friends: function (id, event = () => { }) {
-        const url = this.base_url() + "/" + id + "/friends";
+    friends: function (id, query = {}, event = () => { }) {
+        query = ObjectToQuery(query);
+        const url = this.base_url() + "/" + id + "/friends" + query;
         return StandartIDGET(url, event);
     },
 
@@ -188,7 +247,7 @@ export const Users = {
 };
 
 export const UserRates = {
-    base_url: () => { return "https://shikimori.me/api/v2/user_rates" },
+    base_url: () => { return `${SHIKIURL.url}/api/v2/user_rates` },
 
     show: function (id, event = () => { }) {
         const url = this.base_url() + "/" + id;
@@ -208,6 +267,14 @@ export const UserRates = {
                 const response = await request.fetch();
                 event(response);
                 return response;
+            },
+
+            GET: async () => {
+                request.setMethod("GET");
+                request.setHeaders(Headers.bearer());
+                const response = await request.fetch();
+                event(response);
+                return response;
             }
         }
     },
@@ -217,7 +284,10 @@ export const UserRates = {
         const url = this.base_url() + query;
         const request = Fetch("GET", url, Headers.base());
         return {
-            GET: async () => {
+            GET: async (logged = false) => {
+                if (logged) {
+                    request.setHeaders(Headers.bearer());
+                }
                 const response = await request.fetch();
                 event(response);
                 return response;
@@ -235,7 +305,7 @@ export const UserRates = {
 };
 
 export const Genres = {
-    base_url: () => { return "https://shikimori.me/api/genres" },
+    base_url: () => { return `${SHIKIURL.url}/api/genres` },
 
     list: function (event = () => { }) {
         const url = this.base_url();
@@ -244,7 +314,7 @@ export const Genres = {
 }
 
 export const Messages = {
-    base_url: () => { return "https://shikimori.me/api/messages" },
+    base_url: () => { return `${SHIKIURL.url}/api/messages` },
 
     mark_read: function (event = () => { }) {
         const url = this.base_url() + '/mark_read';
@@ -273,7 +343,7 @@ export const Messages = {
 }
 
 export const Styles = {
-    base_url: () => { return "https://shikimori.me/api/styles" },
+    base_url: () => { return `${SHIKIURL.url}/api/styles` },
 
     show: function (id, event = () => { }) {
         const url = this.base_url() + '/' + id;
@@ -302,6 +372,71 @@ export const Styles = {
             }
         }
     }
+}
+
+export const GraphQl = {
+    base_url: () => { return `${SHIKIURL.url}/api/graphql` },
+
+    animes: function (arg = {}, event = () => { }) {
+        const url = this.base_url();
+        const request = Fetch("POST", url, Headers.base());
+        return {
+            POST: async (body = [], logged = false) => {
+                body = BodyGraphQl("animes", arg, body);
+                if (logged)
+                    request.setHeaders(Headers.bearer());
+                request.setBody(body);
+                const response = await request.fetch();
+                event(response);
+                return response;
+            }
+        }
+    },
+
+    user_rate: function (arg = {}, event = () => { }) {
+        const url = this.base_url();
+        const request = Fetch("POST", url, Headers.bearer());
+        return {
+            POST: async (body = []) => {
+                body = BodyGraphQl("userRates", arg, body);
+                request.setBody(body);
+                const response = await request.fetch();
+                event(response);
+                return response;
+            }
+        }
+    }
+}
+
+function BodyGraphQl(prof, arg = {}, body = []) {
+    const query = Object.entries(arg).map(([key, value]) => 
+        `${key}: ${Array.isArray(value) ? `"${value}"` : value}`
+    );
+
+    //Updated parser for graphql: Recursive function
+    //["id", "status", { anime: ["id", "russian", "score", { airedOn: ["year"]}] }]
+
+    function processBodyRecursively(element) {
+        if (typeof element === "object" && !Array.isArray(element)) {
+            return Object.entries(element).reduce((acc, [key, value]) => {
+                if (Array.isArray(value)) {
+                    acc += `${key} { ${processBodyRecursively(value)} }`;
+                } else if (typeof value === "object") {
+                    acc += `${key} { ${processBodyRecursively(value)} }`;
+                } else {
+                    acc += `${key} `;
+                }
+                return acc;
+            }, "");
+        } else if (Array.isArray(element)) {
+            return element.map(processBodyRecursively).join(' ');
+        }
+        return element;
+    }
+
+    const processedBody = body.map(processBodyRecursively);
+
+    return { query: `{${prof}(${query.join(', ')}){${processedBody.join(' ')}}}` };
 }
 
 function StandartIDGET(url, event) {

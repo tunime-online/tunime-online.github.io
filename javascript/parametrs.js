@@ -9,26 +9,29 @@ const $PARAMETERS = {
     anime: {
         syncdata: true,
         hidehero: false,
+        customstyle: true,
     },
     watch: {
         dubanime: false,
         episrevers: 'left',
         typefrc: ["TV Сериал", "Фильм", "ONA", "OVA"],
         saveinfo: false,
+        previewbs: true,
     },
     download: {
         dquality: '720',
         dasync: true,
-        dautosave: true
+        dautosave: true,
+        dautoset: true,
     },
     player: {
         quality: '720',
         standart: false,
-        full: true,
+        full: false,
         alternative_full: false,
         standart_controls: false,
-        autonekst: true,
-        autoquality: true
+        autoquality: true,
+        skipmoments: true
     },
     develop: false
 };

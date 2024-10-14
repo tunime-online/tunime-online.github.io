@@ -2,6 +2,7 @@ import { InitMenu, Menu } from "../menu.js";
 import { Users } from "../modules/ShikiAPI.js";
 import { Main, User } from "../modules/ShikiUSR.js";
 import { ShowMoreSelect, ShowSelect } from "./settings/mod_select.js";
+import { ShowStorage, Storage } from "./settings/mod_storage.js";
 
 const Parameters = [
     {
@@ -18,6 +19,11 @@ const Parameters = [
                 param: 'autologin',
                 name: 'Автоматический вход',
                 description: 'Моментальная авторизация пользователей.'
+            },
+            {
+                type: 'app-size',
+                name: 'Хранилище',
+                description: 'Возможность управлять данными приложения. Экспортировать, импортировать и сбросить данные.'
             }
         ]
     },
@@ -71,6 +77,8 @@ const Parameters = [
                 param: 'typefrc',
                 variation: [
                     { key: "TV Сериал", val: "TV Сериал" },
+                    { key: "TV Спецвыпуск", val: "TV Спецвыпуск" },
+                    { key: "Спецвыпуск", val: "Спецвыпуск" },
                     { key: "Фильм", val: "Фильм" },
                     { key: "ONA", val: "ONA" },
                     { key: "OVA", val: "OVA" }
@@ -86,10 +94,16 @@ const Parameters = [
             },
             {
                 type: 'boolean',
-                param: '',
-                name: 'Защита 18+',
-                description: 'Ограниченный доступ к контенту для пользователей старше 18 лет, обеспечивая соответствие возрастным ограничениям.'
+                param: 'customstyle',
+                name: 'Кастомизация',
+                description: 'Включить кастомные стили для некоторых аниме.'
             },
+            // {
+            //     type: 'boolean',
+            //     param: '',
+            //     name: 'Защита 18+',
+            //     description: 'Ограниченный доступ к контенту для пользователей старше 18 лет, обеспечивая соответствие возрастным ограничениям.'
+            // },
             {
                 type: 'boolean',
                 param: 'syncdata',
@@ -117,6 +131,12 @@ const Parameters = [
                 param: 'dubanime',
                 name: 'Озвучки по франшизе',
                 description: 'Отдельный список избранных озвучек по франшизе аниме.'
+            },
+            {
+                type: 'boolean',
+                param: 'previewbs',
+                name: 'Информация воспроизведения',
+                description: 'Отображает текущее аниме на экране блокировке.'
             }
         ]
     },
@@ -204,7 +224,13 @@ const Parameters = [
                 type: 'boolean',
                 param: 'dautosave',
                 name: 'Автосохранение',
-                description: 'После загрузки автоматически  сохраняет файл.'
+                description: 'После загрузки автоматически сохраняет файл.'
+            },
+            {
+                type: 'boolean',
+                param: 'dautoset',
+                name: 'Автоотметки',
+                description: 'Отмечать загруженые аниме через 12 часов + продолжительность аниме.'
             }
         ]
     }
@@ -290,6 +316,7 @@ function _ShowParametrs() {
     eventBoolean();
     eventSelectOne();
     eventSelectMore();
+    eventAppStorage();
 
     function __loadParametrs(parametrs) {
         let html = "";
@@ -318,6 +345,20 @@ function _ShowParametrs() {
                                 <div class="title">${element.name}</div>
                                 <div class="select">${element.variation.length}</div>
                             </label>`
+                    break;
+                case "app-size":
+                    html += `<label class="${i == 0 ? 'border-top' : ''} ${i + 1 == parametrs.length ? 'border-bottom' : ''}" data-type="app-size" data-tooltip="${element.description}">
+                                    <div class="title">${element.name}</div>
+                                    <div class="select">0 KB</div>
+                                </label>`;
+                    (async () => {
+                        let s = await Storage.size(), d = 'KB';
+                        if (s > 1000) {
+                            d = 'MB';
+                            s = (s / 1000).toFixed(2);
+                        }
+                        $(`label[data-type="app-size"] > .select`).text(`${s} ${d}`);
+                    })();
                     break;
                 default:
                     break;
@@ -365,6 +406,12 @@ function eventSelectMore() {
             const parameters = JSON.parse(el.attr('data-variation'));
             ShowMoreSelect(title, param, parameters, lval, description);
         }
+    });
+}
+
+function eventAppStorage() {
+    $('label[data-type="app-size"]').click(function () {
+        ShowStorage();
     });
 }
 

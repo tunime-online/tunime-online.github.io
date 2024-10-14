@@ -1,6 +1,6 @@
 import { Users } from "../../modules/ShikiAPI.js";
 import { Oauth, User } from "../../modules/ShikiUSR.js";
-import { Sleep } from "../../modules/funcitons.js";
+import { Sleep } from "../../modules/functions.js";
 import { AnimeLoaded } from "./mod_animes.js";
 
 /**
@@ -40,7 +40,7 @@ function userNotification(id) {
             let count = response.messages + response.news + response.notifications;
 
             if (count > 0) {
-                $('.notification > .dot').removeClass('hide');
+                $('.notification').addClass('dot');
             }
         }).GET();
     });
@@ -70,6 +70,10 @@ function autoLogin() {
 function getPosition() {
     fetch('https://api.sypexgeo.net/json/').then(async (response) => {
         const data = await response.json();
-        $('.position > span').text(data.country.name_en + ', ' + data.city.name_en);
+        let country = data.country.name_en;
+        if(data.city?.name_en){
+            country += `, ${data.city.name_en}`;
+        }
+        $('.position > span').text(country);
     });
 }
